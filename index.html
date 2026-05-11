@@ -3,32 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人网站</title>
-    <link rel="stylesheet" href="style.css">
+    <title>留白 | 个人艺术空间</title>
+    <!-- 引入艺术字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500&family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f3;
+            --text-main: #4a4a4a;
+            --text-light: #8c8c8c;
+            --accent: #a68b67;
+            --transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Noto Serif SC', serif;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* 颗粒感背景纹理 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo { font-family: 'Roboto Mono', monospace; font-size: 1.2rem; letter-spacing: 2px; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            margin-left: 30px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            opacity: 0.6;
+        }
+        .nav-links a:hover { opacity: 1; color: var(--accent); }
+
+        /* 核心布局 */
+        section {
+            min-height: 100vh;
+            padding: 120px 10% 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 个人简介区 */
+        #hero h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 300;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        #hero p {
+            max-width: 600px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        /* 摄影集 - 错落网格 */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            background: #eee;
+            filter: grayscale(0.3);
+            transition: var(--transition);
+        }
+
+        .photo-item:hover {
+            filter: grayscale(0);
+            transform: scale(1.02);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 成长路径 - 时间轴 */
+        .timeline {
+            border-left: 1px solid var(--text-light);
+            margin-left: 20px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .timeline-item {
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -45px;
+            top: 10px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .timeline-date { font-family: 'Roboto Mono', monospace; font-size: 0.8rem; color: var(--accent); }
+
+        /* 书籍与日志 */
+        .card-container {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            scrollbar-width: none;
+        }
+
+        .card {
+            min-width: 300px;
+            padding: 30px;
+            background: rgba(255,255,255,0.5);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            background: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.02);
+        }
+
+        /* 自定义光标 */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease;
+        }
+
+    </style>
 </head>
 <body>
-    <header>
-        <h1>欢迎来到我的个人主页</h1>
-    </header>
-    
-    <main>
-        <section>
-            <h2>关于我</h2>
-            <p>你好！这是我通过 HTML 自定义的第一个网站。</p>
-        </section>
-        
-        <section>
-            <h2>我的兴趣</h2>
-            <ul>
-                <li>编程与技术</li>
-                <li>项目管理</li>
-                <li>西门子数字化转型</li>
-            </ul>
-        </section>
-    </main>
 
-    <footer>
-        <p>&copy; 2024 我的名字. 保留所有权利。</p>
-    </footer>
+    <div id="cursor"></div>
+
+    <nav>
+        <div class="logo">PORTFOLIO.</div>
+        <div class="nav-links">
+            <a href="#hero">简介</a>
+            <a href="#photography">摄影</a>
+            <a href="#growth">成长</a>
+            <a href="#journal">日志</a>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <h1 class="reveal">拾荒者的<br>数字花园</h1>
+        <p class="reveal">在这里，我记录技术与艺术的交汇点。不追求极致的速度，只在乎思考的深度。我是 [你的名字]，一名在数字化浪潮中寻找诗意的开发者。</p>
+    </section>
+
+    <section id="photography">
+        <h2 class="reveal">光影瞬间 (Photography)</h2>
+        <div class="photo-grid">
+            <div class="photo-item reveal"><img src="https://images.unsplash.com/photo-1500964757637-c85e8a162699?auto=format&fit=crop&w=800&q=80" alt="摄影1"></div>
+            <div class="photo-item reveal" style="margin-top: 40px;"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=80" alt="摄影2"></div>
+            <div class="photo-item reveal"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80" alt="摄影3"></div>
+        </div>
+    </section>
+
+    <section id="growth">
+        <h2 class="reveal">成长轨迹 (Path)</h2>
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-date">2024 - PRESENT</div>
+                <h3>西门子数字化转型项目</h3>
+                <p>探索工业互联网与人文设计的结合点。</p>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-date">2022 - 2023</div>
+                <h3>开源社区贡献者</h3>
+                <p>在代码的逻辑中寻找艺术的秩序。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="journal">
+        <h2 class="reveal">读过与写下 (Journal & Books)</h2>
+        <div class="card-container reveal">
+            <div class="card">
+                <small>书籍</small>
+                <h3>《禅与摩托车维修艺术》</h3>
+                <p>关于良质的思考，深刻影响了我的审美观。</p>
+            </div>
+            <div class="card">
+                <small>日志</small>
+                <h3>低对比度设计的哲学</h3>
+                <p>为什么我们需要在喧嚣的互联网中寻找安静？</p>
+            </div>
+            <div class="card">
+                <small>笔记</small>
+                <h3>CSS Grid 进阶技巧</h3>
+                <p>打破常规布局的束缚。</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 1. 滚动揭示动画
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 2. 自定义光标随动
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // 3. 鼠标悬停交互
+        document.querySelectorAll('a, .photo-item, .card').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2.5)';
+                cursor.style.background = 'rgba(166, 139, 103, 0.1)';
+            });
+            item.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.background = 'transparent';
+            });
+        });
+    </script>
 </body>
 </html>
